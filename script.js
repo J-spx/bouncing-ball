@@ -1,43 +1,50 @@
-let canvas;
-let ctx;
-let incrementor = -60;
-let decrementor = 500;
-let position = 550; //initial ball position
-
 window.onload = function () {
     canvas = document.getElementById("creativeCoding");
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     ctx = canvas.getContext("2d");
-    setInterval(drawBoxxy, 50);
+}
+
+let x = 0;
+let y = 0;
+let incrementor = 2;
+
+function square() {
+    ctx.fillStyle = "green";
+    ctx.fillRect(x, 10, 100, 100);
+    ctx.fillStyle = "blue";
+    ctx.fillRect(10, y, 100, 100);
+    ctx.fillStyle = "red";
+    ctx.fillRect(500, y, 100, 100);
 }
 
 function drawBoxxy() {
-    ctx.fillStyle = "black";
-    ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
 
-    // Stadium divider Line
-    ctx.beginPath();
-    ctx.lineWidth = "5"
-    ctx.strokeStyle = "white";
-    ctx.moveTo(300, 0);
-    ctx.lineTo(innerHeight, 60000);
-    ctx.stroke();
-    ctx.closePath();
-    
-    // Blue and red bar
-    ctx.fillStyle = "blue";
-    ctx.fillRect(50, incrementor++, 50, 200);
-    ctx.fillStyle = "red";
-    ctx.fillRect(550, decrementor--, 50, 200);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
+    // Then we run the method of Square
+    square();
 
-    // Ball
-    ctx.beginPath();
-    ctx.arc(position--, position--, 16, 0, 2 * Math.PI);
-    ctx.fillStyle = "green";
-    ctx.fill();
+    /*  x/y is added to incrmentor (speed)
+   if the incrementor is greater than canvas width or 
+   incrementor is less than 0 then make whatever the current
+   number for incrementor negative */
 
-    while (position + decrementor > 50 || position + decrementor < 550) {
-        decrementor = +decrementor;
-    }
-}
+  while (x + incrementor > canvas.width || x + incrementor < 0) {
+    incrementor = -incrementor;
+  }
+
+  while (y + incrementor > canvas.width || y + incrementor < 0) {
+    incrementor = -incrementor;
+  }
+  
+    // Then we update the x and y variable by adding it to the incrementor variable
+  
+    x += incrementor;
+    y += incrementor;
+  }
+
+  /* Lastly we set the Interval of the refresh of drawBoxxy so that
+   we can slow it down and see the referesh */
+  
+  setInterval(drawBoxxy, 10);
